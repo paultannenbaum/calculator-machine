@@ -9,6 +9,7 @@ body {
     background: #74ebd5;
     background: linear-gradient(to right, #acb6e5, #74ebd5);
     display: flex;
+    flex-direction: column;
     height: 100%;
     justify-content: center;
     left: 0;

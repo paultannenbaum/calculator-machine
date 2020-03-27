@@ -1,33 +1,40 @@
 <div class="calc-container">
   <div class="calculator">
-    <input class="readout" disabled value=''/>
+    <input class="readout" disabled value=<%= @readout %> />
     <div class="keyboard">
       <div class="numbers">
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button class="zero">0</button>
-        <button>.</button>
+        <button phx-click="number_click" phx-value-number="7">7</button>
+        <button phx-click="number_click" phx-value-number="8">8</button>
+        <button phx-click="number_click" phx-value-number="9">9</button>
+        <button phx-click="number_click" phx-value-number="4">4</button>
+        <button phx-click="number_click" phx-value-number="5">5</button>
+        <button phx-click="number_click" phx-value-number="6">6</button>
+        <button phx-click="number_click" phx-value-number="1">1</button>
+        <button phx-click="number_click" phx-value-number="2">2</button>
+        <button phx-click="number_click" phx-value-number="3">3</button>
+        <button class="zero" phx-click="number_click" phx-value-number="0">0</button>
+        <button phx-click="decimal_click">.</button>
       </div>
       <div class="buttons">
-        <button>C</button>
-        <button>CE</button>
-        <button>+</button>
-        <button>-</button>
-        <button>×</button>
-        <button>÷</button>
-        <button>=</button>
-        <button>﹪</button>
+        <button phx-click="cancel_click">C</button>
+        <button phx-click="cancel_click">CE</button>
+        <button phx-click="operator_click" phx-value-operator="+">+</button>
+        <button phx-click="operator_click" phx-value-operator="-">-</button>
+        <button phx-click="operator_click" phx-value-operator="x">×</button>
+        <button phx-click="operator_click" phx-value-operator="÷">÷</button>
+        <button phx-click="operator_click" phx-value-operator="=">=</button>
+        <button phx-click="operator_click" phx-value-operator="﹪">﹪</button>
       </div>
     </div>
   </div>
   <div class="state">
+    <%= @machine_state %>
   </div>
 </div>
 
+<div class="credits">
+  <a href="https://www.amazon.co.uk/Constructing-User-Interface-Statecharts-Horrocks/dp/0201342782">
+    Ian Horrocks</a>' calculator built with <a href="https://hexdocs.pm/gen_state_machine/GenStateMachine.html">
+  GenStateMachine
+  </a>
+</div>

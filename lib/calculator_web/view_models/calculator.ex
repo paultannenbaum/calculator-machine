@@ -36,19 +36,13 @@ defmodule CalculatorWeb.CalculatorViewModel do
   end
 
   def register_input(symbol) do
-    cond do
-      String.match?(symbol, ~r/1|2|3|4|5|6|7|8|9/) ->
-        IO.puts('here')
-        GenStateMachine.call(@name, :record_number_input)
-#      String.match?(symbol, ~r/+|-|x|÷|=|﹪/) ->
-#        GenStateMachine.call(@name, {:record_operator_input, symbol})
-      true -> GenStateMachine.call(@name, :get_data)
-    end
+    GenStateMachine.cast(@name, {:record_input, symbol})
   end
 
-  # Server
-  def handle_event({:call, from}, :record_number_input, state, data) do
-    {:next_state, state, data, [{:reply, from, data}]}
+  # Server (state transitions)
+  def handle_event(:cast, {:record_input, symbol}, :start, data) do
+    data = Map.merge(data, %{value: String.to_integer(symbol), current_state: :changed})
+    {:next_state, :changed, data}
   end
 
   def handle_event({:call, from}, :get_data, state, data) do
@@ -56,9 +50,17 @@ defmodule CalculatorWeb.CalculatorViewModel do
   end
 
   def handle_event(event_type, event_content, state, data) do
-    # Call the default implementation from GenStateMachine
     super(event_type, event_content, state, data)
   end
 
+  # Utility
   defp get_state(state), do: Enum.find(@possible_states, fn s -> s === state end)
+
+  defp get_symbol_type(symbol) do
+    cond do
+      String.match?(symbol, ~r/[1|2|3|4|5|6|7|8|9]/) -> {:number, symbol}
+      String.match?(symbol, ~r/[-|+|x|÷|=|﹪]/)      -> {:operator, symbol}
+      true -> {:unrecognized_symbol_type, symbol}
+    end
+  end
 end

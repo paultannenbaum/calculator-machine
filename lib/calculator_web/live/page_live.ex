@@ -1,23 +1,18 @@
 defmodule CalculatorWeb.PageLive do
   use CalculatorWeb, :live_view
+  alias CalculatorWeb.CalculatorViewModel
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, readout: 0, machine_state: 'idle')}
+    CalculatorViewModel.start_link()
+    {:ok, assign(socket, get_view_data())}
   end
 
-  def handle_event("number_click", %{"number" => number}, socket) do
-    {:noreply, assign(socket, readout: number)}
+  def handle_event("calc-input", %{"symbol" => symbol}, socket) do
+    {:noreply, assign(socket, get_view_data())}
   end
 
-  def handle_event("decimal_click", socket) do
-    {:noreply, socket}
-  end
-
-  def handle_event("cancel_click", socket) do
-    {:noreply, socket}
-  end
-
-  def handle_event("operator_click", %{"operator" => operator}, socket) do
-    {:noreply, socket}
+  defp get_view_data() do
+    %CalculatorViewModel{value: readout, current_state: state} = CalculatorViewModel.get_data()
+    %{readout: readout, state: state}
   end
 end

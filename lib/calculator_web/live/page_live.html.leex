@@ -3,32 +3,32 @@
     <input class="readout" disabled value=<%= @readout %> />
     <div class="keyboard">
       <div class="numbers">
-        <button phx-click="number_click" phx-value-number="7">7</button>
-        <button phx-click="number_click" phx-value-number="8">8</button>
-        <button phx-click="number_click" phx-value-number="9">9</button>
-        <button phx-click="number_click" phx-value-number="4">4</button>
-        <button phx-click="number_click" phx-value-number="5">5</button>
-        <button phx-click="number_click" phx-value-number="6">6</button>
-        <button phx-click="number_click" phx-value-number="1">1</button>
-        <button phx-click="number_click" phx-value-number="2">2</button>
-        <button phx-click="number_click" phx-value-number="3">3</button>
-        <button class="zero" phx-click="number_click" phx-value-number="0">0</button>
-        <button phx-click="decimal_click">.</button>
+        <button phx-click="calc-input" phx-value-symbol="7">7</button>
+        <button phx-click="calc-input" phx-value-symbol="8">8</button>
+        <button phx-click="calc-input" phx-value-symbol="9">9</button>
+        <button phx-click="calc-input" phx-value-symbol="4">4</button>
+        <button phx-click="calc-input" phx-value-symbol="5">5</button>
+        <button phx-click="calc-input" phx-value-symbol="6">6</button>
+        <button phx-click="calc-input" phx-value-symbol="1">1</button>
+        <button phx-click="calc-input" phx-value-symbol="2">2</button>
+        <button phx-click="calc-input" phx-value-symbol="3">3</button>
+        <button phx-click="calc-input" phx-value-symbol="0" class="zero" >0</button>
+        <button phx-click="calc-input" phx-value-symbol=".">.</button>
       </div>
       <div class="buttons">
-        <button phx-click="cancel_click">C</button>
-        <button phx-click="cancel_click">CE</button>
-        <button phx-click="operator_click" phx-value-operator="+">+</button>
-        <button phx-click="operator_click" phx-value-operator="-">-</button>
-        <button phx-click="operator_click" phx-value-operator="x">×</button>
-        <button phx-click="operator_click" phx-value-operator="÷">÷</button>
-        <button phx-click="operator_click" phx-value-operator="=">=</button>
-        <button phx-click="operator_click" phx-value-operator="﹪">﹪</button>
+        <button phx-click="calc-input" phx-value-symbol="C">C</button>
+        <button phx-click="calc-input" phx-value-symbol="CE">CE</button>
+        <button phx-click="calc-input" phx-value-symbol="+">+</button>
+        <button phx-click="calc-input" phx-value-symbol="-">-</button>
+        <button phx-click="calc-input" phx-value-symbol="x">×</button>
+        <button phx-click="calc-input" phx-value-symbol="÷">÷</button>
+        <button phx-click="calc-input" phx-value-symbol="=">=</button>
+        <button phx-click="calc-input" phx-value-symbol="﹪">﹪</button>
       </div>
     </div>
   </div>
   <div class="state">
-    <%= @machine_state %>
+    <%= @state %>
   </div>
 </div>
 

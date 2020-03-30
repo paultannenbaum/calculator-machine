@@ -60,8 +60,16 @@ defmodule CalculatorWeb.CalculatorViewModel do
 
   ## start
   def handle_transition(:start, :number, num, data) do
-    state = :operand_1
-    data  = %{data | value: num}
+    {state, data} = cond do
+      num |> is_decimal? ->
+        state = :operand_1
+        data = %{data | value: "0."}
+        {state, data}
+      true ->
+        state = :operand_1
+        data = %{data | value: num}
+        {state, data}
+    end
 
     {state, data}
   end
@@ -80,8 +88,17 @@ defmodule CalculatorWeb.CalculatorViewModel do
 
   ## operand_1
   def handle_transition(:operand_1, :number, num, data) do
-    state = :operand_1
-    data = %{data | value: data.value <> num}
+    {state, data} = cond do
+      num |> is_decimal? &&
+      data.value === "-"  ->
+        state = :operand_1
+        data = %{data | value: "-0."}
+        {state, data}
+      true ->
+        state = :operand_1
+        data = %{data | value: data.value <> num}
+        {state, data}
+    end
 
     {state, data}
   end
@@ -103,8 +120,16 @@ defmodule CalculatorWeb.CalculatorViewModel do
 
   ## operator
   def handle_transition(:operator_registered, :number, num, data) do
-    state = :operand_2
-    data = %{data | value: num}
+    {state, data} = cond do
+      num |> is_decimal? ->
+        state = :operand_2
+        data = %{data | value: "0."}
+        {state, data}
+      true ->
+        state = :operand_2
+        data = %{data | value: num}
+        {state, data}
+    end
 
     {state, data}
   end
@@ -193,14 +218,27 @@ defmodule CalculatorWeb.CalculatorViewModel do
     end
   end
 
-  defp is_minus_operator?(operator), do: String.match?(operator, ~r/[-]/)
+  defp is_decimal?(input), do: String.match?(input, ~r/[.]/)
 
-  defp is_percent_operator?(operator), do: String.match?(operator, ~r/[%]/)
+  defp is_minus_operator?(input), do: String.match?(input, ~r/[-]/)
 
-  defp is_equals_operator?(operator), do: String.match?(operator, ~r/[=]/)
+  defp is_percent_operator?(input), do: String.match?(input, ~r/[%]/)
+
+  defp is_equals_operator?(input), do: String.match?(input, ~r/[=]/)
 
   defp calculate_result(string) do
     {result,_} = Code.eval_string(string)
-    result |> to_string
+    result_string =  result |> to_string
+    {int_result, _precision} =  result_string |> Integer.parse
+
+    # Checks for floats that are actually integers
+    cond do
+      is_float(result)
+      && int_result >= result
+      && int_result <= result ->
+        int_result |> to_string
+      true ->
+        result_string
+    end
   end
 end

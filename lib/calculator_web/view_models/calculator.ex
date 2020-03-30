@@ -106,6 +106,7 @@ defmodule CalculatorWeb.CalculatorViewModel do
     {state, data} = cond do
       operator |> is_percent_operator? ->
         {state, data} = calculate_result("#{data.value}/100", data)
+        {state, data}
       true ->
         state = :operator_registered
         data = Map.merge(data, %{operand_1: data.value, operator: operator})
@@ -158,6 +159,7 @@ defmodule CalculatorWeb.CalculatorViewModel do
     {state, data} = cond do
       operator |> is_equals_operator? ->
         {state, data} = calculate_result("#{data.operand_1}#{data.operator}#{data.value}", data)
+        {state, data}
       true ->
         {:operand_2, data}
     end
@@ -172,6 +174,7 @@ defmodule CalculatorWeb.CalculatorViewModel do
         {:result, data}
       operator |> is_percent_operator? ->
         {state, data} = calculate_result("#{data.value}/100", data)
+        {state, data}
       true ->
         data = Map.merge(data, %{
           operator: operator,

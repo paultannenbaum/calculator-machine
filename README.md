@@ -1,6 +1,8 @@
-# GenStateMachine Calculator
+# Calculator Machine
 
-A phoenix liveview calculator app, using GenStateMachine to control calculator state.
+A phoenix liveview calculator app, using GenStateMachine to control state/transitions.
+
+Demo: [calculator-machine.baumerdesigns.com](https://calculator-machine.baumerdesigns.com/)
 
 Credits:
 - [GenStateMachine](https://github.com/ericentin/gen_state_machine): An elixir behaviour module for implementing a state machine using OTP 19.

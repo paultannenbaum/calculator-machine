@@ -83,3 +83,11 @@ button:active {
     text-align: center;
     margin-bottom: 20px;
 }
+
+.error {
+    font-family: monospace;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: red;
+}

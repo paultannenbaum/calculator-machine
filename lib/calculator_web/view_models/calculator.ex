@@ -6,7 +6,8 @@ defmodule CalculatorWeb.CalculatorViewModel do
   @default_data value: '0',
                 operand_1: nil,
                 operator: nil,
-                current_state: nil
+                current_state: nil,
+                error: nil
 
   defstruct @default_data
 
@@ -104,9 +105,7 @@ defmodule CalculatorWeb.CalculatorViewModel do
   def handle_input(:operand_1, :operator, operator, data) do
     {state, data} = cond do
       operator |> is_percent_operator? ->
-        state = :result
-        data = %{data | value: calculate_result("#{data.value}/100")}
-        {state, data}
+        {state, data} = calculate_result("#{data.value}/100", data)
       true ->
         state = :operator_registered
         data = Map.merge(data, %{operand_1: data.value, operator: operator})
@@ -158,9 +157,7 @@ defmodule CalculatorWeb.CalculatorViewModel do
   def handle_input(:operand_2, :operator, operator, data) do
     {state, data} = cond do
       operator |> is_equals_operator? ->
-        state = :result
-        data = %{data | value: calculate_result("#{data.operand_1}#{data.operator}#{data.value}")}
-        {state, data}
+        {state, data} = calculate_result("#{data.operand_1}#{data.operator}#{data.value}", data)
       true ->
         {:operand_2, data}
     end
@@ -174,8 +171,7 @@ defmodule CalculatorWeb.CalculatorViewModel do
       operator |> is_equals_operator? ->
         {:result, data}
       operator |> is_percent_operator? ->
-        data = %{data | value: calculate_result("#{data.value}/100")}
-        {:result, data}
+        {state, data} = calculate_result("#{data.value}/100", data)
       true ->
         data = Map.merge(data, %{
           operator: operator,
@@ -220,19 +216,30 @@ defmodule CalculatorWeb.CalculatorViewModel do
 
   defp is_equals_operator?(input), do: String.match?(input, ~r/[=]/)
 
-  defp calculate_result(string) do
-    {result,_} = Code.eval_string(string)
-    result_string =  result |> to_string
-    {int_result, _precision} =  result_string |> Integer.parse
+  defp calculate_result(string, data) do
+    try do
+      {result,_} = Code.eval_string(string)
+      result_string =  result |> to_string
+      {int_result, _precision} =  result_string |> Integer.parse
 
-    # Checks for floats that are actually integers
-    cond do
-      is_float(result)
-      && int_result >= result
-      && int_result <= result ->
-        int_result |> to_string
-      true ->
-        result_string
+      # Checks for floats that are actually integers
+      calculated_result = cond do
+        is_float(result)
+        && int_result >= result
+        && int_result <= result ->
+          int_result |> to_string
+        true ->
+          result_string
+      end
+
+      {:result, Map.merge(data, %{
+        value: calculated_result,
+        error: nil
+      })}
+    rescue
+      ArithmeticError ->
+        {state, data}  = initial_state()
+        {state, %{data | error: "Bad expression: #{string}"}}
     end
   end
 end

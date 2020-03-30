@@ -28,7 +28,7 @@ defmodule CalculatorWeb.PageLive do
   end
 
   defp get_view_data() do
-    %{value: readout, current_state: state} = CVM.get_data()
-    %{readout: readout, state: state}
+    %{value: readout, current_state: state, error: error} = CVM.get_data()
+    %{readout: readout, state: state, error: error}
   end
 end

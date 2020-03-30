@@ -4,7 +4,8 @@ defmodule CalculatorWeb.PageLive do
 
   def mount(_params, _session, socket) do
     CVM.start_link()
-    {:ok, assign(socket, get_view_data())}
+    data = Map.merge(get_view_data(), %{page_title: "Calculator State Machine"})
+    {:ok, assign(socket, data)}
   end
 
   def handle_event("calc-input", %{"symbol" => symbol}, socket) do

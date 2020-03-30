@@ -16,25 +16,17 @@
         <button phx-click="calc-input" phx-value-symbol=".">.</button>
       </div>
       <div class="buttons">
-        <button phx-click="calc-input" phx-value-symbol="C">C</button>
-        <button phx-click="calc-input" phx-value-symbol="CE">CE</button>
+        <button phx-click="calc-input" phx-value-symbol="C" class="reset">C</button>
         <button phx-click="calc-input" phx-value-symbol="+">+</button>
         <button phx-click="calc-input" phx-value-symbol="-">-</button>
         <button phx-click="calc-input" phx-value-symbol="*">×</button>
         <button phx-click="calc-input" phx-value-symbol="/">÷</button>
-        <button phx-click="calc-input" phx-value-symbol="=">=</button>
         <button phx-click="calc-input" phx-value-symbol="%">%</button>
+        <button phx-click="calc-input" phx-value-symbol="=">=</button>
       </div>
     </div>
   </div>
   <div class="state">
-    <%= @state %>
+    Current State: <%= @state %>
   </div>
-</div>
-
-<div class="credits">
-  <a href="https://www.amazon.co.uk/Constructing-User-Interface-Statecharts-Horrocks/dp/0201342782">
-    Ian Horrocks</a>' calculator built with <a href="https://hexdocs.pm/gen_state_machine/GenStateMachine.html">
-  GenStateMachine
-  </a>
 </div>

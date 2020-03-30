@@ -1,20 +1,17 @@
-# Calculator
+# GenStateMachine Calculator
 
-To start your Phoenix server:
+A phoenix liveview calculator app, using GenStateMachine to control calculator state.
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install --prefix assets`
-  * Start Phoenix endpoint with `mix phx.server`
+Credits:
+- [GenStateMachine](https://github.com/ericentin/gen_state_machine): An elixir behaviour module for implementing a state machine using OTP 19.
+- Calculator styles copied from Michele Bertoli's [React Caclulator](https://codesandbox.io/s/n5vvn4jrpm)
+- State machine logic for a calculator was inspired by Ian Horrocks [calculator implementation](https://www.amazon.co.uk/Constructing-User-Interface-Statecharts-Horrocks/dp/0201342782) 
+
+## Installing Locally
+* Install dependencies with `mix deps.get`
+* Create and migrate your database with `mix ecto.setup`
+* Install Node.js dependencies with `npm install --prefix assets`
+* Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix

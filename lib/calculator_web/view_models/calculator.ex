@@ -1,8 +1,6 @@
 defmodule CalculatorWeb.CalculatorViewModel do
   use GenStateMachine
 
-  @name CalculatorViewModel
-
   @default_data value: '0',
                 operand_1: nil,
                 operator: nil,
@@ -22,15 +20,15 @@ defmodule CalculatorWeb.CalculatorViewModel do
   # Client
   def start_link() do
     {state, data} = initial_state()
-    GenStateMachine.start_link(__MODULE__, {state, data}, name: @name)
+    GenStateMachine.start_link(__MODULE__, {state, data})
   end
 
-  def get_data() do
-    GenStateMachine.call(@name, :get_data)
+  def get_data(pid) do
+    GenStateMachine.call(pid, :get_data)
   end
 
-  def register_input(input) do
-    GenStateMachine.cast(@name, {:handle_input, input})
+  def register_input(pid, input) do
+    GenStateMachine.cast(pid, {:handle_input, input})
   end
 
   # Server
